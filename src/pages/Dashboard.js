@@ -8,6 +8,9 @@ import Medications from '../components/pages/Medications';
 import Benefits from '../components/pages/Benefits';
 import AppointmentManagement from '../components/pages/AppointmentManagement';
 import Reports from '../components/pages/Reports';
+import Profile from '../components/pages/Profile';
+import Notifications from '../components/pages/Notifications';
+import Settings from '../components/pages/Settings';
 
 function Dashboard() {
   const [currentPage, setCurrentPage] = useState('inicio');
@@ -29,6 +32,12 @@ function Dashboard() {
         return <AppointmentManagement />;
       case 'reportes':
         return <Reports />;
+      case 'perfil':
+        return <Profile />;
+      case 'notificaciones':
+        return <Notifications />;
+      case 'configuracion':
+        return <Settings />;
       default:
         return <HomePage />;
     }
@@ -41,7 +50,10 @@ function Dashboard() {
       'medicamentos': 'Medicamentos',
       'beneficios': 'Beneficios',
       'gestion-citas': 'Gestión de Citas',
-      'reportes': 'Reportes y Estadísticas'
+      'reportes': 'Reportes y Estadísticas',
+      'perfil': 'Mi Perfil',
+      'notificaciones': 'Notificaciones',
+      'configuracion': 'Configuración'
     };
     return titles[currentPage] || 'Dashboard';
   };
@@ -82,6 +94,7 @@ function Dashboard() {
             setSidebarOpen={setSidebarOpen}
             sidebarCollapsed={sidebarCollapsed}
             setSidebarCollapsed={setSidebarCollapsed}
+            setCurrentPage={setCurrentPage}
           />
 
           {/* Contenido del Dashboard */}

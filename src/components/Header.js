@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import NotificationDropdown from './NotificationDropdown';
 
-function Header({ pageTitle, user, setSidebarOpen, sidebarCollapsed, setSidebarCollapsed }) {
+function Header({ pageTitle, user, setSidebarOpen, sidebarCollapsed, setSidebarCollapsed, setCurrentPage }) {
   const { logout } = useAuth();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
@@ -26,19 +25,8 @@ function Header({ pageTitle, user, setSidebarOpen, sidebarCollapsed, setSidebarC
 
   const handleMenuOption = (option) => {
     setUserMenuOpen(false);
-    // Aquí puedes agregar la lógica para cada opción
-    switch(option) {
-      case 'profile':
-        alert('Función de Perfil - Próximamente');
-        break;
-      case 'notifications':
-        alert('Función de Notificaciones - Próximamente');
-        break;
-      case 'settings':
-        alert('Función de Configuración - Próximamente');
-        break;
-      default:
-        break;
+    if (setCurrentPage && typeof setCurrentPage === 'function') {
+      setCurrentPage(option);
     }
   };
 
@@ -90,9 +78,6 @@ function Header({ pageTitle, user, setSidebarOpen, sidebarCollapsed, setSidebarC
         </div>
 
         <div className="flex items-center space-x-2 sm:space-x-4">
-          {/* Notifications */}
-          <NotificationDropdown />
-
           {/* User Menu Dropdown */}
           <div className="relative" ref={userMenuRef}>
             {/* User info button - Desktop */}
@@ -151,7 +136,7 @@ function Header({ pageTitle, user, setSidebarOpen, sidebarCollapsed, setSidebarC
                 <div className="py-2">
                   {/* Perfil */}
                   <button
-                    onClick={() => handleMenuOption('profile')}
+                    onClick={() => handleMenuOption('perfil')}
                     className="w-full px-4 py-3 flex items-center space-x-3 hover:bg-medical-50 transition-colors duration-150 text-left group"
                   >
                     <div className="w-10 h-10 bg-medical-100 rounded-lg flex items-center justify-center group-hover:bg-health-100 transition-colors duration-150">
@@ -164,7 +149,7 @@ function Header({ pageTitle, user, setSidebarOpen, sidebarCollapsed, setSidebarC
 
                   {/* Notificaciones */}
                   <button
-                    onClick={() => handleMenuOption('notifications')}
+                    onClick={() => handleMenuOption('notificaciones')}
                     className="w-full px-4 py-3 flex items-center space-x-3 hover:bg-medical-50 transition-colors duration-150 text-left group"
                   >
                     <div className="w-10 h-10 bg-medical-100 rounded-lg flex items-center justify-center group-hover:bg-health-100 transition-colors duration-150">
@@ -177,7 +162,7 @@ function Header({ pageTitle, user, setSidebarOpen, sidebarCollapsed, setSidebarC
 
                   {/* Configuración */}
                   <button
-                    onClick={() => handleMenuOption('settings')}
+                    onClick={() => handleMenuOption('configuracion')}
                     className="w-full px-4 py-3 flex items-center space-x-3 hover:bg-medical-50 transition-colors duration-150 text-left group"
                   >
                     <div className="w-10 h-10 bg-medical-100 rounded-lg flex items-center justify-center group-hover:bg-health-100 transition-colors duration-150">
