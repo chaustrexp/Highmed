@@ -64,50 +64,58 @@ function LoadingScreen() {
         </div>
 
         {/* Texto de marca con animación mejorada */}
-        <div className="text-center space-y-3 animate-fade-in-up">
+        <div className="text-center space-y-4 animate-fade-in-up">
           <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-health-600 via-health-500 to-health-600 bg-clip-text text-transparent animate-gradient">
             HighMed
           </h1>
-          <div className="flex items-center justify-center space-x-2">
-            <div className="h-px w-8 bg-gradient-to-r from-transparent to-health-400"></div>
-            <p className="text-base text-medical-600 font-semibold tracking-wide">
+          <div className="flex items-center justify-center space-x-3">
+            <div className="h-px w-12 bg-gradient-to-r from-transparent via-health-400 to-health-400"></div>
+            <p className="text-lg text-medical-600 font-semibold tracking-wide">
               by HIGHSOFT
             </p>
-            <div className="h-px w-8 bg-gradient-to-l from-transparent to-health-400"></div>
+            <div className="h-px w-12 bg-gradient-to-l from-transparent via-health-400 to-health-400"></div>
+          </div>
+          
+          {/* Slogan oficial */}
+          <div className="pt-2">
+            <p className="text-base md:text-lg text-medical-700 font-medium italic">
+              Conectando pacientes, médicos y soluciones.
+            </p>
           </div>
         </div>
 
         {/* Barra de progreso mejorada */}
-        <div className="w-80 max-w-full space-y-3 animate-fade-in-delay">
+        <div className="w-80 max-w-full space-y-4 animate-fade-in-delay">
           <div className="relative h-2 bg-medical-200 rounded-full overflow-hidden shadow-inner">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
             <div className="h-full bg-gradient-to-r from-health-400 via-health-500 to-health-600 rounded-full animate-loading-bar shadow-soft"></div>
           </div>
           
-          {/* Porcentaje de carga simulado */}
-          <div className="flex items-center justify-between text-xs text-medical-500 font-medium px-1">
-            <span className="animate-pulse">Iniciando sistema</span>
-            <span className="animate-pulse animation-delay-200">...</span>
+          {/* Estado de carga */}
+          <div className="text-center space-y-2">
+            <p className="text-sm text-medical-600 font-medium">
+              Iniciando sistema
+            </p>
+            <div className="flex items-center justify-center space-x-2">
+              <div className="w-2 h-2 bg-health-500 rounded-full animate-bounce-smooth"></div>
+              <div className="w-2 h-2 bg-health-500 rounded-full animate-bounce-smooth animation-delay-200"></div>
+              <div className="w-2 h-2 bg-health-500 rounded-full animate-bounce-smooth animation-delay-400"></div>
+            </div>
           </div>
         </div>
 
-        {/* Indicador de puntos animados */}
-        <div className="flex items-center justify-center space-x-2 animate-fade-in-delay-2">
-          <div className="w-3 h-3 bg-health-500 rounded-full animate-bounce-smooth"></div>
-          <div className="w-3 h-3 bg-health-500 rounded-full animate-bounce-smooth animation-delay-200"></div>
-          <div className="w-3 h-3 bg-health-500 rounded-full animate-bounce-smooth animation-delay-400"></div>
-        </div>
-
-        {/* Mensaje inferior */}
-        <div className="absolute bottom-10 text-center space-y-2 animate-fade-in-delay-3">
-          <p className="text-sm text-medical-600 font-medium">
+        {/* Mensaje inferior con mejor diseño */}
+        <div className="absolute bottom-8 left-0 right-0 text-center space-y-3 px-4 animate-fade-in-delay-3">
+          <p className="text-sm md:text-base text-medical-700 font-semibold">
             Sistema de Gestión Médica
           </p>
-          <div className="flex items-center justify-center space-x-2 text-xs text-medical-400">
-            <svg className="w-4 h-4 text-health-500" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-            </svg>
-            <span>Conexión segura</span>
+          <div className="flex items-center justify-center space-x-2">
+            <div className="flex items-center space-x-2 px-4 py-2 bg-white/80 backdrop-blur-sm rounded-full shadow-soft border border-health-200">
+              <svg className="w-4 h-4 text-health-600" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+              </svg>
+              <span className="text-xs md:text-sm text-health-700 font-medium">Conexión segura</span>
+            </div>
           </div>
         </div>
       </div>
