@@ -104,8 +104,11 @@ function LoadingScreen() {
           </div>
         </div>
 
+        {/* Espaciador */}
+        <div className="h-8"></div>
+
         {/* Mensaje inferior con mejor diseño */}
-        <div className="absolute bottom-8 left-0 right-0 text-center space-y-3 px-4 animate-fade-in-delay-3">
+        <div className="text-center space-y-4 animate-fade-in-delay-3">
           <p className="text-sm md:text-base text-medical-700 font-semibold">
             Sistema de Gestión Médica
           </p>
