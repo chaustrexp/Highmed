@@ -163,6 +163,15 @@ function AuthPage() {
             <div className="w-full h-px bg-gradient-to-r from-transparent via-medical-200 to-transparent mb-6"></div>
           </div>
 
+          {/* Company Logo */}
+          <div className="flex justify-center mb-8">
+            <img 
+              src="/logo.jpeg" 
+              alt="HIGHSOFT Company Logo" 
+              className="w-24 h-24 md:w-32 md:h-32 lg:w-28 lg:h-28 object-contain rounded-xl shadow-soft"
+            />
+          </div>
+
           {/* Tabs */}
           <div className="flex bg-medical-100 rounded-xl p-1 mb-8">
             <button
