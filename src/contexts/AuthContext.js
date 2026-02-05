@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import safeLocalStorage from '../utils/storage';
 
 const AuthContext = createContext();
 
@@ -30,25 +31,32 @@ export function AuthProvider({ children }) {
           role: 'usuario'
         }
       ];
-      localStorage.setItem('highmed_users', JSON.stringify(defaultUsers));
+      safeLocalStorage.setItem('highmed_users', JSON.stringify(defaultUsers));
     }
 
     // Check for existing session
-    const session = localStorage.getItem('highmed_session');
+    const session = safeLocalStorage.getItem('highmed_session');
     if (session) {
       try {
         setUser(JSON.parse(session));
       } catch (error) {
         console.error('Error parsing session:', error);
-        localStorage.removeItem('highmed_session');
+        safeLocalStorage.removeItem('highmed_session');
       }
     }
     setLoading(false);
   }, []);
 
   const getUsers = () => {
-    const users = localStorage.getItem('highmed_users');
-    return users ? JSON.parse(users) : [];
+    const users = safeLocalStorage.getItem('highmed_users');
+    if (!users) return [];
+    
+    try {
+      return JSON.parse(users);
+    } catch (error) {
+      console.error('Error parsing users:', error);
+      return [];
+    }
   };
 
   const validateEmail = (email) => {
@@ -77,7 +85,11 @@ export function AuthProvider({ children }) {
         loginTime: new Date().toISOString()
       };
 
-      localStorage.setItem('highmed_session', JSON.stringify(sessionData));
+      const saved = safeLocalStorage.setItem('highmed_session', JSON.stringify(sessionData));
+      if (!saved) {
+        console.warn('Session could not be saved to localStorage');
+      }
+      
       setUser(sessionData);
       return sessionData;
     } else {
@@ -119,13 +131,17 @@ export function AuthProvider({ children }) {
     };
 
     users.push(newUser);
-    localStorage.setItem('highmed_users', JSON.stringify(users));
+    const saved = safeLocalStorage.setItem('highmed_users', JSON.stringify(users));
+    
+    if (!saved) {
+      throw new Error('No se pudo guardar el usuario. Por favor intenta de nuevo.');
+    }
 
     return newUser;
   };
 
   const logout = () => {
-    localStorage.removeItem('highmed_session');
+    safeLocalStorage.removeItem('highmed_session');
     setUser(null);
   };
 

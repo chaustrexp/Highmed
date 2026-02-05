@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import safeLocalStorage from '../utils/storage';
 
 const DataContext = createContext();
 
@@ -34,7 +35,7 @@ export function DataProvider({ children }) {
 
   const initializeData = () => {
     // Initialize appointments
-    let storedAppointments = localStorage.getItem('highmed_appointments');
+    let storedAppointments = safeLocalStorage.getItem('highmed_appointments');
     if (!storedAppointments) {
       const defaultAppointments = [
         {
@@ -56,14 +57,19 @@ export function DataProvider({ children }) {
           createdAt: new Date().toISOString()
         }
       ];
-      localStorage.setItem('highmed_appointments', JSON.stringify(defaultAppointments));
+      safeLocalStorage.setItem('highmed_appointments', JSON.stringify(defaultAppointments));
       setAppointments(defaultAppointments);
     } else {
-      setAppointments(JSON.parse(storedAppointments));
+      try {
+        setAppointments(JSON.parse(storedAppointments));
+      } catch (error) {
+        console.error('Error parsing appointments:', error);
+        setAppointments([]);
+      }
     }
 
     // Initialize medications
-    let storedMedications = localStorage.getItem('highmed_medications');
+    let storedMedications = safeLocalStorage.getItem('highmed_medications');
     if (!storedMedications) {
       const defaultMedications = [
         {
@@ -127,10 +133,15 @@ export function DataProvider({ children }) {
           category: 'Hipolipemiante'
         }
       ];
-      localStorage.setItem('highmed_medications', JSON.stringify(defaultMedications));
+      safeLocalStorage.setItem('highmed_medications', JSON.stringify(defaultMedications));
       setMedications(defaultMedications);
     } else {
-      setMedications(JSON.parse(storedMedications));
+      try {
+        setMedications(JSON.parse(storedMedications));
+      } catch (error) {
+        console.error('Error parsing medications:', error);
+        setMedications([]);
+      }
     }
   };
 
@@ -144,7 +155,7 @@ export function DataProvider({ children }) {
 
     const updatedAppointments = [...appointments, newAppointment];
     setAppointments(updatedAppointments);
-    localStorage.setItem('highmed_appointments', JSON.stringify(updatedAppointments));
+    safeLocalStorage.setItem('highmed_appointments', JSON.stringify(updatedAppointments));
     return newAppointment;
   };
 
@@ -153,7 +164,7 @@ export function DataProvider({ children }) {
       apt.id === appointmentId ? { ...apt, status: newStatus } : apt
     );
     setAppointments(updatedAppointments);
-    localStorage.setItem('highmed_appointments', JSON.stringify(updatedAppointments));
+    safeLocalStorage.setItem('highmed_appointments', JSON.stringify(updatedAppointments));
   };
 
   const addMedications = (medicationsData) => {
@@ -165,7 +176,7 @@ export function DataProvider({ children }) {
 
     const updatedMedications = [...medications, ...newMedications];
     setMedications(updatedMedications);
-    localStorage.setItem('highmed_medications', JSON.stringify(updatedMedications));
+    safeLocalStorage.setItem('highmed_medications', JSON.stringify(updatedMedications));
     return newMedications;
   };
 
@@ -174,13 +185,21 @@ export function DataProvider({ children }) {
       med.id === medicationId ? { ...med, status: 'reclamado' } : med
     );
     setMedications(updatedMedications);
-    localStorage.setItem('highmed_medications', JSON.stringify(updatedMedications));
+    safeLocalStorage.setItem('highmed_medications', JSON.stringify(updatedMedications));
   };
 
   const getUserName = (userId) => {
-    const users = JSON.parse(localStorage.getItem('highmed_users') || '[]');
-    const user = users.find(u => u.id === userId);
-    return user ? user.name : `Usuario #${userId}`;
+    const users = safeLocalStorage.getItem('highmed_users');
+    if (!users) return `Usuario #${userId}`;
+    
+    try {
+      const parsedUsers = JSON.parse(users);
+      const user = parsedUsers.find(u => u.id === userId);
+      return user ? user.name : `Usuario #${userId}`;
+    } catch (error) {
+      console.error('Error parsing users:', error);
+      return `Usuario #${userId}`;
+    }
   };
 
   const formatSpecialty = (specialty) => {
