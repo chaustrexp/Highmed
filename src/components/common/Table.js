@@ -1,31 +1,11 @@
 import React from 'react';
+import LoadingSpinner from '../LoadingSpinner';
 
 function Table({ columns, data, emptyMessage = 'No hay datos disponibles', loading = false, className = '' }) {
   if (loading) {
     return (
-      <div className="animate-pulse">
-        <div className="table-modern">
-          <div className="table-header">
-            <div className="flex">
-              {columns.map((_, index) => (
-                <div key={index} className="table-header-cell">
-                  <div className="h-4 bg-medical-200 rounded w-20"></div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="table-body">
-            {[...Array(3)].map((_, rowIndex) => (
-              <div key={rowIndex} className="flex">
-                {columns.map((_, colIndex) => (
-                  <div key={colIndex} className="table-cell">
-                    <div className="h-4 bg-medical-100 rounded w-24"></div>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
+      <div className="card">
+        <LoadingSpinner size="lg" text="Cargando datos..." />
       </div>
     );
   }
