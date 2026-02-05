@@ -67,53 +67,88 @@ function AppointmentManagement() {
     {
       key: 'actions',
       label: 'Acciones',
-      width: 'w-60',
+      width: 'w-32',
       render: (_, row) => (
-        <div className="flex flex-wrap gap-2 min-w-max">
+        <div className="flex items-center justify-center gap-2 min-w-max">
           {row.status === 'pendiente' ? (
             <>
+              {/* Botón Aprobar - Icono de Chulito */}
               <button
                 onClick={() => handleApproveAndPrescribe(row)}
-                className="btn btn-success text-xs px-3 py-2 font-medium shadow-sm hover:shadow-md transition-all duration-200 flex items-center space-x-1.5"
+                className="group relative p-2.5 bg-green-50 hover:bg-green-100 text-green-600 hover:text-green-700 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md border border-green-200 hover:border-green-300"
                 title="Aprobar cita y recetar medicamentos"
+                aria-label="Aprobar cita"
               >
-                <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg 
+                  className="w-5 h-5" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                  strokeWidth={2.5}
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    d="M5 13l4 4L19 7" 
+                  />
                 </svg>
-                <span>Aprobar</span>
+                {/* Tooltip */}
+                <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                  Aprobar
+                </span>
               </button>
+
+              {/* Botón Rechazar - Icono de Equis */}
               <button
                 onClick={() => handleReject(row.id)}
-                className="btn btn-danger text-xs px-3 py-2 font-medium shadow-sm hover:shadow-md transition-all duration-200 flex items-center space-x-1.5"
+                className="group relative p-2.5 bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md border border-red-200 hover:border-red-300"
                 title="Rechazar cita"
+                aria-label="Rechazar cita"
               >
-                <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg 
+                  className="w-5 h-5" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                  strokeWidth={2.5}
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    d="M6 18L18 6M6 6l12 12" 
+                  />
                 </svg>
-                <span>Rechazar</span>
+                {/* Tooltip */}
+                <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                  Rechazar
+                </span>
               </button>
             </>
           ) : row.status === 'aprobada' ? (
             <button
               onClick={() => handleStatusChange(row.id, 'pendiente')}
-              className="btn btn-warning text-xs px-3 py-2 font-medium shadow-sm hover:shadow-md transition-all duration-200 flex items-center space-x-1.5"
+              className="group relative px-3 py-2 bg-yellow-50 hover:bg-yellow-100 text-yellow-700 hover:text-yellow-800 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md border border-yellow-200 hover:border-yellow-300 text-xs font-medium"
               title="Marcar como pendiente"
             >
-              <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>Pendiente</span>
+              <div className="flex items-center space-x-1.5">
+                <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Pendiente</span>
+              </div>
             </button>
           ) : (
             <button
               onClick={() => handleStatusChange(row.id, 'pendiente')}
-              className="btn btn-warning text-xs px-3 py-2 font-medium shadow-sm hover:shadow-md transition-all duration-200 flex items-center space-x-1.5"
+              className="group relative px-3 py-2 bg-yellow-50 hover:bg-yellow-100 text-yellow-700 hover:text-yellow-800 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md border border-yellow-200 hover:border-yellow-300 text-xs font-medium"
               title="Reactivar cita"
             >
-              <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-              <span>Reactivar</span>
+              <div className="flex items-center space-x-1.5">
+                <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span>Reactivar</span>
+              </div>
             </button>
           )}
         </div>
@@ -138,7 +173,7 @@ function AppointmentManagement() {
               columns={columns}
               data={appointments}
               emptyMessage="No hay citas en el sistema"
-              className="min-w-[1300px]"
+              className="min-w-[1100px]"
             />
           </div>
           {/* Indicador de scroll horizontal */}

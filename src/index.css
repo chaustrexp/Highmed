@@ -485,4 +485,47 @@
   .animation-delay-400 {
     animation-delay: 0.4s;
   }
+
+  /* Estilos para botones de iconos en tablas */
+  .icon-button {
+    @apply p-2.5 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md;
+  }
+
+  .icon-button-approve {
+    @apply bg-green-50 hover:bg-green-100 text-green-600 hover:text-green-700 border border-green-200 hover:border-green-300;
+  }
+
+  .icon-button-reject {
+    @apply bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 border border-red-200 hover:border-red-300;
+  }
+
+  /* Tooltips para botones de iconos */
+  .icon-button-tooltip {
+    @apply absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none z-10;
+  }
+
+  /* Mejoras responsive para botones de iconos */
+  @media (max-width: 768px) {
+    .icon-button {
+      @apply p-3 min-w-[44px] min-h-[44px];
+    }
+
+    .icon-button svg {
+      @apply w-6 h-6;
+    }
+
+    /* Ocultar tooltips en móvil */
+    .icon-button-tooltip {
+      @apply hidden;
+    }
+  }
+
+  /* Animación de hover para iconos */
+  .icon-button:active {
+    @apply scale-95;
+  }
+
+  .icon-button:hover svg {
+    @apply transform scale-110;
+  }
 }
