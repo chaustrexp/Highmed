@@ -686,3 +686,27 @@
     @apply transform scale-110;
   }
 }
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Scroll margin for sections */
+.scroll-mt-6 {
+  scroll-margin-top: 1.5rem;
+}
+
+/* Sidebar navigation animations */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

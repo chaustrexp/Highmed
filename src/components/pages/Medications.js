@@ -3,6 +3,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useData } from '../../contexts/DataContext';
 import StatCard from '../common/StatCard';
 import Table from '../common/Table';
+import { generateMedicationCertificate } from '../../utils/pdfGenerator';
 
 function Medications() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -53,6 +54,10 @@ function Medications() {
     }
   ];
 
+  const handleDownloadCertificate = (medication) => {
+    generateMedicationCertificate(medication, user);
+  };
+
   const createColumns = (showActions = false) => [
     { 
       key: 'name', 
@@ -71,18 +76,7 @@ function Medications() {
     { key: 'dosage', label: 'Dosificación' },
     { key: 'doctor', label: 'Médico' },
     { key: 'prescribedDate', label: 'Fecha Receta', render: (value) => formatDate(value) },
-    ...(showActions ? [{
-      key: 'actions',
-      label: 'Acciones',
-      render: (_, row) => (
-        <button
-          onClick={() => handleClaimMedication(row.id)}
-          className="btn btn-primary text-xs"
-        >
-          Reclamar
-        </button>
-      )
-    }] : [{
+    {
       key: 'status',
       label: 'Estado',
       render: (value) => (
@@ -90,7 +84,34 @@ function Medications() {
           {getStatusText(value)}
         </span>
       )
-    }])
+    },
+    {
+      key: 'certificate',
+      label: 'Certificado',
+      render: (_, row) => (
+        <button
+          onClick={() => handleDownloadCertificate(row)}
+          className="w-full px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs font-medium flex items-center justify-center gap-2"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          PDF
+        </button>
+      )
+    },
+    ...(showActions ? [{
+      key: 'actions',
+      label: 'Acción',
+      render: (_, row) => (
+        <button
+          onClick={() => handleClaimMedication(row.id)}
+          className="w-full px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-xs font-medium"
+        >
+          Reclamar
+        </button>
+      )
+    }] : [])
   ];
 
   const getStatusText = (status) => {
@@ -138,6 +159,12 @@ function Medications() {
             Listos para reclamar en farmacia
           </span>
         </div>
+        <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center gap-2 text-sm text-blue-800">
+          <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Desliza la tabla hacia la derecha → para ver el botón "PDF" y descargar el certificado</span>
+        </div>
         <Table
           columns={createColumns(true)}
           data={filterMedications(disponibles)}
@@ -152,6 +179,12 @@ function Medications() {
           <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
             Pendientes de preparación en farmacia
           </span>
+        </div>
+        <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center gap-2 text-sm text-blue-800">
+          <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Desliza la tabla hacia la derecha → para ver el botón "PDF" y descargar el certificado</span>
         </div>
         <Table
           columns={createColumns()}
@@ -168,6 +201,12 @@ function Medications() {
             En tratamiento continuo
           </span>
         </div>
+        <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center gap-2 text-sm text-blue-800">
+          <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Desliza la tabla hacia la derecha → para ver el botón "PDF" y descargar el certificado</span>
+        </div>
         <Table
           columns={createColumns()}
           data={filterMedications(asignados)}
@@ -182,6 +221,12 @@ function Medications() {
           <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
             Ya obtenidos
           </span>
+        </div>
+        <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-center gap-2 text-sm text-blue-800">
+          <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Desliza la tabla hacia la derecha → para ver el botón "PDF" y descargar el certificado</span>
         </div>
         <Table
           columns={createColumns()}
